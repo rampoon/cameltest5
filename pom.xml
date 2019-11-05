@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>se.rampoon.example5</groupId>
+  <artifactId>cameltest5</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <name>cameltest5</name>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.1.7.RELEASE</version>
+  </parent>
+
+  <properties>
+    <!-- encoding -->
+    <encoding>UTF-8</encoding>
+    <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+    <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+    <!-- jvm -->
+    <java.version>1.8</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <!-- frameworks -->
+    <camel.version>2.24.1</camel.version>
+    <cxf.version>3.2.7</cxf.version>
+    <log4j.version>2.12.1</log4j.version>
+    <spring.boot.version>2.1.7.RELEASE</spring.boot.version>
+    <!-- plugins -->
+    <jar.version>3.1.2</jar.version>
+    <jacoco.version>0.8.4</jacoco.version>
+    <resources.version>3.1.0</resources.version>
+    <!-- rpm package configuration -->
+    <rpm.package.name>ppm-${project.artifactId}</rpm.package.name>
+    <rpm.package.version>${project.version}</rpm.package.version>
+    <rpm.package.install.dir>/var/opt/matjav_cameltest5</rpm.package.install.dir>
+    <rpm.user.group>matjav_cameltest5</rpm.user.group>
+    <!-- Docker -->
+   <dockerfile-maven-version>1.4.10</dockerfile-maven-version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- integration and routing -->
+      <dependency>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-spring-boot-dependencies</artifactId>
+        <version>${camel.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- logging -->
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-bom</artifactId>
+        <version>${log4j.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <!-- Spring Boot -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-tomcat</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-undertow</artifactId>
+    </dependency>
+
+    <!-- metrics and JMX -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+      <version>1.0.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jolokia</groupId>
+      <artifactId>jolokia-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.hawt</groupId>
+      <artifactId>hawtio-springboot</artifactId>
+      <version>2.7.1</version>
+    </dependency>
+
+    <!-- ActiveMQ Client -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-activemq</artifactId>
+    </dependency>
+
+    <!-- JmsPoolConnectionFactory -->
+    <dependency>
+      <groupId>org.messaginghub</groupId>
+      <artifactId>pooled-jms</artifactId>
+    </dependency>
+
+    <!-- Camel -->
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-camel</artifactId>
+      <version>5.6.0</version>
+    </dependency>
+
+    <!--To be able to use Spring boot auto configuration-->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-spring-boot-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-micrometer-starter</artifactId>
+    </dependency>
+
+    <!-- LOGGER -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <exclusions>
+        <!--
+            Exclude logback, use log4j2 instead (dependency below)
+            reference: https://www.baeldung.com/spring-boot-logging
+        -->
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+
+    <!-- test -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-test-spring</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <!-- Plugin management -->
+  <build>
+
+    <pluginManagement>
+      <plugins>
+        <!--
+        Make the JAR spring boot friendly.
+        Reference: https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html
+         -->
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+
+        <!-- Docker -->
+        <plugin>
+          <groupId>com.spotify</groupId>
+          <artifactId>dockerfile-maven-plugin</artifactId>
+          <version>${dockerfile-maven-version}</version>
+          <executions>
+            <execution>
+              <id>default</id>
+              <!-- <phase>package</phase> -->
+              <goals>
+                <goal>build</goal>
+                <!-- <goal>push</goal> -->
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <repository>dockerrepository/${project.artifactId}</repository>
+            <tag>docker/${project.version}</tag>
+  <!--          <buildArgs>
+              <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+            </buildArgs> -->
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>
