@@ -1,0 +1,1 @@
+package se.rampoon.example5.beans;

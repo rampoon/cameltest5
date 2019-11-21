@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              targetNamespace="http://cameltest.rampoon.se/customerorder"
+              xmlns:tns="http://cameltest.rampoon.se/customerorder"
+              attributeFormDefault="unqualified"
+              elementFormDefault="qualified"
+              version="1.0">
+
+    <xs:element name="customerorders">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="customerorder" type="tns:customerorderType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="customerorderType">
+        <xs:sequence>
+            <xs:element name="customer" type="tns:customerType" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="orders" type="tns:orderList" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="customerType">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer"/>
+            <xs:element name="name" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="orderList">
+        <xs:sequence>
+            <xs:element name="order" type="tns:order" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="order">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer"/>
+            <xs:element name="date" type="xs:date" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="productName" type="xs:string"/>
+            <xs:element name="quantity" type="xs:integer"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

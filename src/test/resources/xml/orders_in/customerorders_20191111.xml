@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<customerorders xmlns="http://cameltest.rampoon.se/customerorder">
+	<customerorder>
+		<customer>
+			<id>1</id>
+			<name>Alfa AB</name>
+		</customer>
+		<orders>
+			<order>
+				<id>1</id>
+				<productName>laptop</productName>
+				<quantity>2</quantity>
+			</order>
+			<order>
+				<id>2</id>
+				<date>2019-02-01</date>
+				<productName>keyboard</productName>
+				<quantity>3</quantity>
+			</order>
+		</orders>
+	</customerorder>
+	<customerorder>
+		<customer>
+			<id>2</id>
+			<name>Beta AB</name>
+		</customer>
+		<orders>
+			<order>
+				<id>3</id>
+				<date>2019-03-01</date>
+				<productName>monitor</productName>
+				<quantity>4</quantity>
+			</order>
+			<order>
+				<id>4</id>
+				<date>2019-04-01</date>
+				<productName>desk</productName>
+				<quantity>5</quantity>
+			</order>
+		</orders>
+	</customerorder>
+	<customerorder>
+		<customer>
+			<id>3</id>
+			<name>Delta AB</name>
+		</customer>
+		<orders>
+			<order>
+				<id>5</id>
+				<date>2019-03-01</date>
+				<productName>chair</productName>
+				<quantity>6</quantity>
+			</order>
+			<order>
+				<id>6</id>
+				<date>2019-04-01</date>
+				<productName>coffee</productName>
+				<quantity>7</quantity>
+			</order>
+		</orders>
+	</customerorder>
+</customerorders>

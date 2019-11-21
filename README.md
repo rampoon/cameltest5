@@ -1,15 +1,19 @@
-# Cameltest5
+#Cameltest5
 
 ## Description.
 
 Test of Camel using Spring boot (auto configuration) and Docker. 
-* ArtemisMQ as input
-* Adding a header
-* Logging headers (key, value) to logfile
-* split message on element `<order>` 
-* creating separate output files
-* each outputfile gets a unique filename
-* Unittests using ActiveProfiles
+* Producer: 
+* XML message (customers and orders) as input to ArtemisMQ.
+
+* Consumer:
+* Validation against schema customerorder.xsd.
+* Unmarshall from XML to Object structure.
+* Save to database (customers and orders).
+* Marshall from Object structure to XML message.
+* split message on element `<customerorder>` 
+* Stax parsing id for each customer.
+* Creating separate output files each outputfile gets a unique filename based on id of customer.
 
 ## How to build locally
 ```

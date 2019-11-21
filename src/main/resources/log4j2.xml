@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Properties>
-        <Property name="appRoot">${bundle:cameltest5:appRoot}</Property>
+        <Property name="appRoot">${bundle:application:app.dir}</Property>
     </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
