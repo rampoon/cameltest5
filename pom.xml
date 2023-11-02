@@ -128,7 +128,7 @@
     <dependency>
       <groupId>org.apache.activemq</groupId>
       <artifactId>activemq-camel</artifactId>
-      <version>5.15.0</version>
+      <version>5.15.16</version>
     </dependency>
 
     <!--To be able to use Spring boot auto configuration-->
